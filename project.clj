@@ -7,8 +7,10 @@
                  [compojure "1.6.1"]
                  [ring "1.9.0"]
                  [ring/ring-defaults "0.3.2"]
-                 [environ "1.1.0"]
-                 [ring-oauth2 "0.1.5"]]
+                 [ring-oauth2 "0.1.5"]
+                 [clj-http "3.12.0"]
+                 [org.clojure/data.json "1.0.0"]
+                 [environ "1.1.0"]]
   :min-lein-version "2.0.0"
   :plugins [[environ/environ.lein "0.3.1"]]
   :hooks [environ.leiningen.hooks]
