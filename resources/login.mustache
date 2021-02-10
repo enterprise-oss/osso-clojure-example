@@ -8,9 +8,10 @@
   <body>
     <div class="container">
       <div class="main-content login">
-        <form action="/auth/osso" method="get" class="login-form">
+        <form action="/auth/osso" method="post" class="login-form">
           <label>Email</label>
           <input type="email" name="email" />
+          <input type="hidden" value='{{csrf_token}}' name="__anti-forgery-token" />
           <button type="submit">Sign in with SSO</button>
       </div>  
     </div>    

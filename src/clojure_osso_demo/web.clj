@@ -11,7 +11,9 @@
             [ring.middleware.session :refer [wrap-session]]
             [ring.middleware.defaults :refer :all]
             [ring.middleware.oauth2 :refer [wrap-oauth2]]
+            [ring.middleware.anti-forgery :refer :all]
             [environ.core :refer [env]]
+            [stencil.core :as mustache]
             [clj-http.client :as client]))
 
   (defn get-osso-profile 
@@ -21,7 +23,9 @@
         :body))
           
   (defn login []
-    (slurp (io/resource "login.html")))
+    (mustache/render-file "login"
+             {:csrf_token *anti-forgery-token*}))
+    
 
   (defn callback []
     (fn [request]
@@ -32,14 +36,14 @@
         :headers {"Content-Type" "application/json"}
         :body (json/write-str profile)}))))
 
-  (defroutes routes 
+  (defroutes myroutes 
     (GET "/" [] (login))
     (GET "/welcome" [] (callback))
     (ANY "*" []
     (route/not-found (slurp (io/resource "404.html")))))
             
  (def handler
-   (-> routes
+   (-> myroutes
        (wrap-params)
        (wrap-oauth2 {:osso
           {:authorize-uri   "https://demo.ossoapp.com/oauth/authorize"
